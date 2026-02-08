@@ -1,0 +1,7 @@
+# Excluir todo por defecto
+*
+
+# Incluir solo lo necesario para el sitio
+!index.html
+!Portrait.jpeg
+!.gitignore

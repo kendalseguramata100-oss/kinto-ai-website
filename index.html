@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KINTO AI | Agentes de IA y Automatización</title>
+    <meta name="description" content="KINTO AI - Escala tu negocio sin aumentar tu equipo. Agentes de IA y automatización personalizados.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0B0B0B;
+            --gold: #FFB800;
+            --gold-dark: #D49800;
+            --gold-light: #FFD966;
+            --white: #FFFFFF;
+            --gray-900: #1A1A1A;
+            --gray-800: #2A2A2A;
+            --gray-700: #404040;
+            --gray-300: #A8A8A8;
+            --gray-100: #F5F5F5;
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           HEADER
+        ============================================ */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(11, 11, 11, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 184, 0, 0.1);
+            padding: 0 40px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(11, 11, 11, 0.97);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .kinto-logo {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+
+        .kinto-logo .k-line {
+            position: absolute;
+            background: var(--gold);
+            transform-origin: center;
+        }
+
+        .kinto-logo .k-line-1 {
+            width: 32px;
+            height: 3px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .kinto-logo .k-line-2 {
+            width: 32px;
+            height: 3px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .kinto-logo .k-node {
+            position: absolute;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255, 184, 0, 0.4);
+        }
+
+        .kinto-logo .k-n1 { width: 7px; height: 7px; top: 3px; left: 3px; }
+        .kinto-logo .k-n2 { width: 7px; height: 7px; top: 3px; right: 3px; }
+        .kinto-logo .k-n3 { width: 7px; height: 7px; bottom: 3px; left: 3px; }
+        .kinto-logo .k-n4 { width: 7px; height: 7px; bottom: 3px; right: 3px; }
+        .kinto-logo .k-nc {
+            width: 10px;
+            height: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--gold);
+            letter-spacing: -1px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--gray-300);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        .lang-toggle {
+            display: flex;
+            background: var(--gray-900);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 184, 0, 0.2);
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: transparent;
+            color: var(--gray-300);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .lang-btn.active {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .nav-cta {
+            background: var(--gold);
+            color: var(--black) !important;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .nav-cta:hover {
+            background: var(--gold-dark);
+            color: var(--black) !important;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition);
+        }
+
+        /* ============================================
+           HERO SECTION
+        ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .organic-shape {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 184, 0, 0.06) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: morph 20s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            }
+            25% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+                transform: translate(-50%, -50%) rotate(90deg) scale(1.05);
+            }
+            50% {
+                border-radius: 50% 60% 30% 60% / 30% 50% 60% 40%;
+                transform: translate(-50%, -50%) rotate(180deg) scale(0.95);
+            }
+            75% {
+                border-radius: 60% 30% 60% 40% / 70% 40% 50% 60%;
+                transform: translate(-50%, -50%) rotate(270deg) scale(1.02);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 20px;
+            color: var(--gold);
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray-300);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ============================================
+           BUTTONS
+        ============================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--gold);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 184, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           SECTIONS COMMON
+        ============================================ */
+        .section {
+            padding: 100px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--gray-300);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           TECH STACK
+        ============================================ */
+        .tech-stack {
+            padding: 60px 40px;
+            border-top: 1px solid rgba(255, 184, 0, 0.08);
+            border-bottom: 1px solid rgba(255, 184, 0, 0.08);
+            background: rgba(11, 11, 11, 0.88);
+            position: relative;
+            z-index: 1;
+        }
+
+        .tech-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .tech-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--gray-700);
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .tech-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            opacity: 0.5;
+        }
+
+        .tech-logos span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray-300);
+            letter-spacing: 2px;
+            transition: var(--transition);
+        }
+
+        .tech-logos span:hover {
+            color: var(--gold);
+            opacity: 1;
+        }
+
+        /* ============================================
+           PROCESS SECTION
+        ============================================ */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .process-card {
+            background: var(--gray-900);
+            border: 1px solid rgba(255, 184, 0, 0.1);
+            border-radius: 16px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .process-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 184, 0, 0.1);
+        }
+
+        .process-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .process-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: rgba(255, 184, 0, 0.15);
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .process-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: rgba(255, 184, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .process-icon i {
+            font-size: 1.4rem;
+            color: var(--gold);
+        }
+
+        .process-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .process-card .process-subtitle {
+            font-size: 0.9rem;
+            color: var(--gold);
+            font-weight: 500;
+            margin-bottom: 18px;
+            font-style: italic;
+        }
+
+        .process-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .process-card ul li {
+            font-size: 0.9rem;
+            color: var(--gray-300);
+            line-height: 1.6;
+            padding: 6px 0;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .process-card ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 14px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+
+        /* ============================================
+           FOUNDER SECTION
+        ============================================ */
+        .founder-section {
+            padding: 100px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section::before,
+        .founder-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            background: rgba(11, 11, 11, 0.88);
+            z-index: -1;
+        }
+
+        .founder-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .founder-image-wrapper {
+            flex-shrink: 0;
+        }
+
+        .founder-image {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 30%;
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 40px rgba(255, 184, 0, 0.15);
+        }
+
+        .founder-text .section-label {
+            margin-bottom: 15px;
+        }
+
+        .founder-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .founder-text p {
+            font-size: 1.05rem;
+            color: var(--gray-300);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .founder-cta {
+            margin-top: 25px;
+        }
+
+        /* ============================================
+           CTA SECTION
+        ============================================ */
+        .cta-section {
+            margin: 40px;
+            padding: 80px 60px;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.92) 0%, rgba(42, 42, 42, 0.92) 100%);
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(255, 184, 0, 0.15);
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 184, 0, 0.04) 0%, transparent 60%);
+            animation: pulse-cta 10s ease-in-out infinite;
+        }
+
+        @keyframes pulse-cta {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .cta-section p {
+            font-size: 1.15rem;
+            color: var(--gray-300);
+            max-width: 550px;
+            margin: 0 auto 35px;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            padding: 60px 40px 40px;
+            border-top: 1px solid rgba(255, 184, 0, 0.08);
+            background: rgba(11, 11, 11, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-top {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand .kinto-logo {
+            width: 30px;
+            height: 30px;
+        }
+
+        .footer-brand .kinto-logo .k-line-1,
+        .footer-brand .kinto-logo .k-line-2 {
+            width: 22px;
+            height: 2px;
+        }
+
+        .footer-brand .kinto-logo .k-n1,
+        .footer-brand .kinto-logo .k-n2,
+        .footer-brand .kinto-logo .k-n3,
+        .footer-brand .kinto-logo .k-n4 {
+            width: 5px;
+            height: 5px;
+        }
+
+        .footer-brand .kinto-logo .k-nc {
+            width: 7px;
+            height: 7px;
+        }
+
+        .footer-brand-description {
+            font-size: 0.9rem;
+            color: var(--gray-300);
+            line-height: 1.7;
+            max-width: 350px;
+        }
+
+        .footer-links h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--gray-300);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 184, 0, 0.08);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            color: var(--gray-700);
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--gold-light);
+        }
+
+        /* ============================================
+           MOBILE RESPONSIVE
+        ============================================ */
+        @media (max-width: 900px) {
+            header {
+                padding: 0 20px;
+            }
+
+            nav {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(11, 11, 11, 0.98);
+                flex-direction: column;
+                padding: 30px 20px;
+                gap: 20px;
+                border-bottom: 1px solid rgba(255, 184, 0, 0.1);
+            }
+
+            nav.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .founder-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .founder-image {
+                width: 280px;
+                height: 280px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .cta-section {
+                margin: 20px;
+                padding: 50px 30px;
+            }
+
+            .cta-section h2 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .footer-brand-description {
+                max-width: 100%;
+            }
+
+            .footer-brand {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .tech-logos {
+                gap: 30px;
+            }
+        }
+
+        /* ============================================
+           ANIMATIONS
+        ============================================ */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-scale {
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Stagger delays for process cards */
+        .process-card:nth-child(1) { transition-delay: 0s; }
+        .process-card:nth-child(2) { transition-delay: 0.15s; }
+        .process-card:nth-child(3) { transition-delay: 0.3s; }
+
+        /* Typing cursor */
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 0.85em;
+            background: var(--gold);
+            margin-left: 4px;
+            vertical-align: text-bottom;
+            animation: blink-cursor 0.8s step-end infinite;
+        }
+
+        @keyframes blink-cursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Hero elements hidden until typing completes */
+        .typing-hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease 0s, transform 0.6s ease 0s;
+        }
+
+        .typing-revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .typing-revealed:nth-child(2) { transition-delay: 0s; }
+        .typing-revealed:nth-child(3) { transition-delay: 0.15s; }
+        .typing-revealed:nth-child(4) { transition-delay: 0.3s; }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            #particles-canvas {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ==========================================
+         HEADER
+    ========================================== -->
+    <header id="header">
+        <div class="logo">
+            <div class="kinto-logo">
+                <div class="k-line k-line-1"></div>
+                <div class="k-line k-line-2"></div>
+                <div class="k-node k-n1"></div>
+                <div class="k-node k-n2"></div>
+                <div class="k-node k-n3"></div>
+                <div class="k-node k-n4"></div>
+                <div class="k-node k-nc"></div>
+            </div>
+            <span class="logo-text">KINTO</span>
+        </div>
+
+        <nav id="nav">
+            <a href="#hero" data-es="Inicio" data-en="Home">Inicio</a>
+            <a href="#proceso" data-es="Servicios" data-en="Services">Servicios</a>
+            <a href="#fundador" data-es="Nosotros" data-en="About">Nosotros</a>
+            <a href="#contact" data-es="Contacto" data-en="Contact">Contacto</a>
+            <!-- TODO: Reemplazar href="#contact" con enlace de Calendly cuando esté listo -->
+            <a href="#contact" class="nav-cta" data-es="Agenda una Llamada" data-en="Book a Call">Agenda una Llamada</a>
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLang('es')">ES</button>
+                <button class="lang-btn" onclick="setLang('en')">EN</button>
+            </div>
+        </nav>
+
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- ==========================================
+         HERO SECTION
+    ========================================== -->
+    <section class="hero" id="hero">
+        <div class="organic-shape"></div>
+        <div class="hero-content">
+            <h1 id="hero-title" data-es="Automatización con IA" data-en="AI Automation"></h1>
+            <p class="hero-subtitle typing-hidden" data-es="Escala tu negocio sin aumentar tu equipo." data-en="Scale your business without growing your team.">Escala tu negocio sin aumentar tu equipo.</p>
+            <p class="typing-hidden" data-es="Convierte los cuellos de botella de tu día a día en flujos de trabajo con IA, listos para usarse, que realmente se implementan y generan ingresos, sin que tengas que volverte un experto en tecnología." data-en="Turn your daily bottlenecks into ready-to-use AI workflows that actually get implemented and generate revenue, without becoming a tech expert.">Convierte los cuellos de botella de tu día a día en flujos de trabajo con IA, listos para usarse, que realmente se implementan y generan ingresos, sin que tengas que volverte un experto en tecnología.</p>
+            <div class="hero-buttons typing-hidden">
+                <!-- TODO: Reemplazar href="#contact" con enlace de Calendly cuando esté listo -->
+                <a href="#contact" class="btn btn-primary" data-es="Agenda una Llamada" data-en="Book a Call">Agenda una Llamada</a>
+                <a href="#proceso" class="btn btn-secondary" data-es="Ver Cómo Funciona" data-en="See How It Works">Ver Cómo Funciona</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         TECH STACK
+    ========================================== -->
+    <div class="tech-stack">
+        <div class="tech-inner">
+            <div class="tech-logos">
+                <span>OpenAI</span>
+                <span>Anthropic</span>
+                <span>LangChain</span>
+                <span>Pinecone</span>
+                <span>n8n</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         PROCESS SECTION
+    ========================================== -->
+    <section class="section" id="proceso">
+        <div class="fade-up">
+            <p class="section-label" data-es="CÓMO TRABAJAMOS" data-en="HOW WE WORK">CÓMO TRABAJAMOS</p>
+            <h2 class="section-title" data-es="Nuestro Proceso" data-en="Our Process">Nuestro Proceso</h2>
+            <p class="section-description" data-es="Un enfoque metódico y de bajo riesgo que comienza entendiendo tu negocio, no saltando directamente a las herramientas." data-en="A methodical, low-risk approach that starts with understanding your business - not jumping straight into tools.">Un enfoque metódico y de bajo riesgo que comienza entendiendo tu negocio, no saltando directamente a las herramientas.</p>
+        </div>
+
+        <div class="process-grid">
+            <!-- Card 1: Discover & Diagnose -->
+            <div class="process-card fade-left">
+                <div class="process-number" data-count="1">01</div>
+                <div class="process-icon"><i class="fas fa-magnifying-glass"></i></div>
+                <h3 data-es="Descubrir y Diagnosticar" data-en="Discover &amp; Diagnose">Descubrir y Diagnosticar</h3>
+                <p class="process-subtitle" data-es="Primero entender, después automatizar." data-en="Understand first, automate second.">Primero entender, después automatizar.</p>
+                <ul>
+                    <li data-es="Aprendemos cómo funciona realmente tu negocio: objetivos, restricciones, traspasos y cómo se ve el éxito." data-en="We learn how your business actually works: goals, constraints, handoffs, and what a 'win' looks like.">Aprendemos cómo funciona realmente tu negocio: objetivos, restricciones, traspasos y cómo se ve el éxito.</li>
+                    <li data-es="Mapeamos tu stack tecnológico y dónde viven los datos: CRMs, bandejas de entrada, hojas de cálculo, herramientas internas." data-en="We map your tech stack and where data lives: CRMs, inboxes, spreadsheets, internal tools.">Mapeamos tu stack tecnológico y dónde viven los datos: CRMs, bandejas de entrada, hojas de cálculo, herramientas internas.</li>
+                    <li data-es="Auditamos procesos para encontrar cuellos de botella reales y decidir qué debe y qué no debe automatizarse." data-en="We audit processes to find real bottlenecks and decide what should and shouldn't be automated.">Auditamos procesos para encontrar cuellos de botella reales y decidir qué debe y qué no debe automatizarse.</li>
+                </ul>
+            </div>
+
+            <!-- Card 2: Design, Build & Validate -->
+            <div class="process-card fade-up">
+                <div class="process-number" data-count="2">02</div>
+                <div class="process-icon"><i class="fas fa-code"></i></div>
+                <h3 data-es="Diseñar, Construir y Validar" data-en="Design, Build &amp; Validate">Diseñar, Construir y Validar</h3>
+                <p class="process-subtitle" data-es="Soluciones personalizadas, probadas antes del lanzamiento." data-en="Custom solutions, tested before launch.">Soluciones personalizadas, probadas antes del lanzamiento.</p>
+                <ul>
+                    <li data-es="Priorizamos oportunidades de alto impacto y decidimos dónde la IA ayuda y dónde no." data-en="We prioritize high-impact opportunities and decide where AI helps, and where it doesn't.">Priorizamos oportunidades de alto impacto y decidimos dónde la IA ayuda y dónde no.</li>
+                    <li data-es="Diseñamos y construimos flujos de trabajo personalizados, probamos diferentes enfoques con datos reales y explicamos nuestras decisiones en lenguaje simple." data-en="We design and build custom workflows, test different approaches on real data, and explain our choices in plain language.">Diseñamos y construimos flujos de trabajo personalizados, probamos diferentes enfoques con datos reales y explicamos nuestras decisiones en lenguaje simple.</li>
+                    <li data-es="Ejecutamos evaluaciones en un entorno real antes del despliegue completo." data-en="We run evaluations in a real-world environment before full rollout.">Ejecutamos evaluaciones en un entorno real antes del despliegue completo.</li>
+                </ul>
+            </div>
+
+            <!-- Card 3: Launch, Monitor & Optimize -->
+            <div class="process-card fade-right">
+                <div class="process-number" data-count="3">03</div>
+                <div class="process-icon"><i class="fas fa-chart-line"></i></div>
+                <h3 data-es="Lanzar, Monitorear y Optimizar" data-en="Launch, Monitor &amp; Optimize">Lanzar, Monitorear y Optimizar</h3>
+                <p class="process-subtitle" data-es="Mejora continua, no un proyecto único." data-en="Continuous improvement, not a one-off project.">Mejora continua, no un proyecto único.</p>
+                <ul>
+                    <li data-es="Lanzamos a producción con métricas de éxito claras y salvaguardas." data-en="We launch into production with clear success metrics and safeguards.">Lanzamos a producción con métricas de éxito claras y salvaguardas.</li>
+                    <li data-es="Monitoreamos el rendimiento, recopilamos feedback de tu equipo y clientes, y solucionamos problemas rápidamente." data-en="We monitor performance, collect feedback from your team and customers, and fix issues quickly.">Monitoreamos el rendimiento, recopilamos feedback de tu equipo y clientes, y solucionamos problemas rápidamente.</li>
+                    <li data-es="Refinamos continuamente prompts, lógica y modelos para que el sistema mejore a medida que tu negocio evoluciona." data-en="We continuously refine prompts, logic, and models so the system improves as your business evolves.">Refinamos continuamente prompts, lógica y modelos para que el sistema mejore a medida que tu negocio evoluciona.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOUNDER SECTION
+    ========================================== -->
+    <section class="founder-section" id="fundador">
+        <div class="founder-content">
+            <div class="founder-image-wrapper fade-left">
+                <img src="Portrait.jpeg" alt="Kendal Segura - Fundador de KINTO AI" class="founder-image">
+            </div>
+            <div class="founder-text fade-right">
+                <p class="section-label" data-es="Conoce al Fundador" data-en="Meet the Founder">Conoce al Fundador</p>
+                <h2 data-es="Kendal Segura" data-en="Kendal Segura">Kendal Segura</h2>
+                <p data-es="Creador de soluciones de automatización y educador en Inteligencia Artificial. Graduado en Recursos Humanos, cuenta con una ventaja competitiva poco común en el sector tecnológico: una profunda comprensión académica de cómo funcionan los equipos y las personas dentro de una organización." data-en="Automation solutions creator and Artificial Intelligence educator. With a degree in Human Resources, he has an uncommon competitive advantage in the tech sector: a deep academic understanding of how teams and people work within an organization.">Creador de soluciones de automatización y educador en Inteligencia Artificial. Graduado en Recursos Humanos, cuenta con una ventaja competitiva poco común en el sector tecnológico: una profunda comprensión académica de cómo funcionan los equipos y las personas dentro de una organización.</p>
+                <p data-es="Al analizar el futuro del trabajo durante su formación, Kendal decidió no seguir la ruta corporativa tradicional. En su lugar, optó por especializarse en la tecnología que está redefiniendo el empleo: la Inteligencia Artificial. Su objetivo fue claro desde el inicio: dominar las herramientas que pueden liberar el verdadero potencial humano." data-en="While analyzing the future of work during his studies, Kendal decided not to follow the traditional corporate route. Instead, he chose to specialize in the technology that is redefining employment: Artificial Intelligence. His goal was clear from the start: master the tools that can unlock true human potential.">Al analizar el futuro del trabajo durante su formación, Kendal decidió no seguir la ruta corporativa tradicional. En su lugar, optó por especializarse en la tecnología que está redefiniendo el empleo: la Inteligencia Artificial. Su objetivo fue claro desde el inicio: dominar las herramientas que pueden liberar el verdadero potencial humano.</p>
+                <p data-es="Hoy, a través de KINTO AI, ayuda a pequeñas y medianas empresas a modernizar sus operaciones. Su enfoque es consultivo y personalizado: primero estudia las necesidades del negocio para diseñar el flujo de trabajo ideal, implementando sistemas de IA que no solo eliminan tareas repetitivas, sino que ayudan a sus clientes a vender más y crecer de manera sostenible." data-en="Today, through KINTO AI, he helps small and medium businesses modernize their operations. His approach is consultative and personalized: first studying business needs to design the ideal workflow, implementing AI systems that not only eliminate repetitive tasks but help clients sell more and grow sustainably.">Hoy, a través de KINTO AI, ayuda a pequeñas y medianas empresas a modernizar sus operaciones. Su enfoque es consultivo y personalizado: primero estudia las necesidades del negocio para diseñar el flujo de trabajo ideal, implementando sistemas de IA que no solo eliminan tareas repetitivas, sino que ayudan a sus clientes a vender más y crecer de manera sostenible.</p>
+                <div class="founder-cta">
+                    <!-- TODO: Reemplazar href="#contact" con enlace de Calendly cuando esté listo -->
+                    <a href="#contact" class="btn btn-primary" data-es="Trabajemos Juntos" data-en="Let's Work Together">Trabajemos Juntos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CTA SECTION
+    ========================================== -->
+    <section class="cta-section" id="contact">
+        <div class="cta-content fade-scale">
+            <h2 data-es="Escala tu Negocio con IA" data-en="Scale Your Business with AI">Escala tu Negocio con IA</h2>
+            <p data-es="Agenda una llamada gratuita de 15 minutos. Sin compromiso, sin jerga técnica. Solo soluciones reales para tu negocio." data-en="Book a free 15-minute call. No commitment, no technical jargon. Just real solutions for your business.">Agenda una llamada gratuita de 15 minutos. Sin compromiso, sin jerga técnica. Solo soluciones reales para tu negocio.</p>
+            <!-- TODO: Reemplazar href="#" con enlace de Calendly cuando esté listo -->
+            <a href="#" class="btn btn-primary" data-es="Agenda tu Llamada Gratis" data-en="Book Your Free Call">Agenda tu Llamada Gratis</a>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+    ========================================== -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand-section">
+                <div class="footer-brand">
+                    <div class="kinto-logo">
+                        <div class="k-line k-line-1"></div>
+                        <div class="k-line k-line-2"></div>
+                        <div class="k-node k-n1"></div>
+                        <div class="k-node k-n2"></div>
+                        <div class="k-node k-n3"></div>
+                        <div class="k-node k-n4"></div>
+                        <div class="k-node k-nc"></div>
+                    </div>
+                    <span style="font-family: 'Cormorant Garamond', serif; font-weight: 700; color: var(--gold); font-size: 1.2rem;">KINTO</span>
+                </div>
+                <p class="footer-brand-description" data-es="Construyendo la próxima generación de automatización empresarial inteligente usando estrategias de IA orgánicas y centradas en el humano." data-en="Building the next generation of intelligent business automation using organic, human-centric AI strategies.">Construyendo la próxima generación de automatización empresarial inteligente usando estrategias de IA orgánicas y centradas en el humano.</p>
+            </div>
+            <div class="footer-links">
+                <h4 data-es="Empresa" data-en="Company">Empresa</h4>
+                <ul>
+                    <li><a href="#hero" data-es="Inicio" data-en="Home">Inicio</a></li>
+                    <li><a href="#proceso" data-es="Servicios" data-en="Services">Servicios</a></li>
+                    <li><a href="#fundador" data-es="Nosotros" data-en="About">Nosotros</a></li>
+                    <li><a href="#contact" data-es="Contacto" data-en="Contact">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 data-es="Conecta" data-en="Connect">Conecta</h4>
+                <ul>
+                    <li><a href="mailto:kendal@kintoai.com"><i class="fas fa-envelope" style="margin-right: 8px;"></i>kendal@kintoai.com</a></li>
+                    <li><a href="https://www.instagram.com/kintoai/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram" style="margin-right: 8px;"></i>@kintoai</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 KINTO AI. <span data-es="Todos los derechos reservados." data-en="All rights reserved.">Todos los derechos reservados.</span></p>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         JAVASCRIPT
+    ========================================== -->
+    <script>
+        // ========================================
+        // LANGUAGE TOGGLE
+        // ========================================
+        let currentLang = 'es';
+        let typingTimer = null;
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-es]').forEach(el => {
+                if (el.id === 'hero-title') return;
+                el.innerHTML = el.getAttribute('data-' + lang);
+            });
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+            });
+            document.documentElement.lang = lang;
+            typeHeroTitle();
+        }
+
+        // ========================================
+        // MOBILE MENU
+        // ========================================
+        function toggleMenu() {
+            document.getElementById('nav').classList.toggle('active');
+            const hamburger = document.querySelector('.hamburger');
+            hamburger.classList.toggle('open');
+        }
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav').classList.remove('active');
+            });
+        });
+
+        // ========================================
+        // HEADER SCROLL EFFECT
+        // ========================================
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ========================================
+        // SCROLL ANIMATIONS (Intersection Observer)
+        // ========================================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up, .fade-left, .fade-right, .fade-scale').forEach(el => observer.observe(el));
+
+        // ========================================
+        // TYPING EFFECT
+        // ========================================
+        function typeHeroTitle() {
+            const heroTitle = document.getElementById('hero-title');
+            const text = heroTitle.getAttribute('data-' + currentLang);
+            if (typingTimer) clearTimeout(typingTimer);
+            heroTitle.innerHTML = '';
+
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+            heroTitle.appendChild(cursor);
+
+            let i = 0;
+            function typeChar() {
+                if (i < text.length) {
+                    heroTitle.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+                    i++;
+                    typingTimer = setTimeout(typeChar, 55);
+                } else {
+                    setTimeout(() => {
+                        document.querySelectorAll('.typing-hidden').forEach(el => {
+                            el.classList.remove('typing-hidden');
+                            el.classList.add('typing-revealed');
+                        });
+                    }, 300);
+                    setTimeout(() => {
+                        cursor.style.transition = 'opacity 0.5s';
+                        cursor.style.opacity = '0';
+                        setTimeout(() => cursor.remove(), 500);
+                    }, 2500);
+                }
+            }
+            typeChar();
+        }
+
+        typeHeroTitle();
+
+        // ========================================
+        // COUNTER ANIMATION
+        // ========================================
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute('data-count'));
+                    let current = 0;
+                    const stepTime = 800 / target;
+                    const timer = setInterval(() => {
+                        current++;
+                        el.textContent = String(current).padStart(2, '0');
+                        if (current >= target) clearInterval(timer);
+                    }, stepTime);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.process-number[data-count]').forEach(el => {
+            el.textContent = '00';
+            counterObserver.observe(el);
+        });
+
+        // ========================================
+        // PARALLAX
+        // ========================================
+        let ticking = false;
+        function handleParallax() {
+            if (window.innerWidth < 768) return;
+            const scrollY = window.scrollY;
+
+            const shape = document.querySelector('.organic-shape');
+            if (shape) {
+                shape.style.transform = 'translate(-50%, calc(-50% + ' + (scrollY * 0.3) + 'px))';
+            }
+
+            document.querySelectorAll('.section-label').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const offset = (rect.top - window.innerHeight / 2) * 0.04;
+                    el.style.transform = 'translateY(' + offset + 'px)';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    handleParallax();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // ========================================
+        // PARTICLE ANIMATION (Gold Neural Network)
+        // ========================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = Math.random() > 0.5 ? '#FFB800' : '#FFD966';
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 20000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        const opacityValue = 1 - (distance / 150);
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = 'rgba(255, 184, 0,' + opacityValue * 0.15 + ')';
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            drawConnections();
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        // Initialize
+        resizeCanvas();
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        // Pause animation when not visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animationId);
+            } else {
+                animateParticles();
+            }
+        });
+    </script>
+</body>
+</html>
