@@ -5,5 +5,10 @@
 !index.html
 !Portrait.jpeg
 !.gitignore
+!generate-og-image.html
+
+# Incluir carpeta de imágenes
+!images/
+!images/**
 
 .vercel

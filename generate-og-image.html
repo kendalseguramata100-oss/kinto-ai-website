@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generador OG Image - KINTO AI</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #1a1a1a;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        h1 {
+            color: #FFB800;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        p {
+            color: #A8A8A8;
+            font-size: 14px;
+            margin: 0;
+            text-align: center;
+        }
+
+        canvas {
+            border: 1px solid #2A2A2A;
+            border-radius: 8px;
+        }
+
+        button {
+            background: #FFB800;
+            color: #0B0B0B;
+            border: none;
+            padding: 12px 32px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background: #D49800;
+        }
+
+        .note {
+            background: #0B0B0B;
+            border: 1px solid #2A2A2A;
+            border-left: 3px solid #FFB800;
+            padding: 12px 20px;
+            border-radius: 6px;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .note p {
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .note code {
+            color: #FFB800;
+            background: #1A1A1A;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Generador de OG Image — KINTO AI</h1>
+    <p>Esta herramienta genera la imagen 1200×630 px que aparece al compartir tu link en redes sociales.</p>
+
+    <canvas id="ogCanvas" width="1200" height="630"></canvas>
+
+    <button onclick="descargar()">Descargar og-image.png</button>
+
+    <div class="note">
+        <p>Después de descargar, mueve el archivo a: <code>images/og-image.png</code> dentro de tu proyecto.</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('ogCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function dibujar() {
+            const W = 1200;
+            const H = 630;
+
+            // --- FONDO ---
+            ctx.fillStyle = '#0B0B0B';
+            ctx.fillRect(0, 0, W, H);
+
+            // --- ACENTO DORADO SUPERIOR ---
+            ctx.fillStyle = '#FFB800';
+            ctx.fillRect(0, 0, W, 4);
+
+            // --- FORMA DECORATIVA (círculo difuminado) ---
+            const grad = ctx.createRadialGradient(W * 0.75, H * 0.25, 0, W * 0.75, H * 0.25, 400);
+            grad.addColorStop(0, 'rgba(255, 184, 0, 0.08)');
+            grad.addColorStop(1, 'rgba(255, 184, 0, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, W, H);
+
+            // --- LÍNEA SEPARADORA IZQUIERDA (acento) ---
+            ctx.fillStyle = '#FFB800';
+            ctx.fillRect(80, 140, 3, 320);
+
+            // --- LOGO: texto KINTO AI con tipografía serif ---
+            ctx.fillStyle = '#FFB800';
+            ctx.font = '700 96px Georgia, serif';
+            ctx.letterSpacing = '4px';
+            ctx.fillText('KINTO AI', 110, 260);
+
+            // --- LÍNEA DECORATIVA bajo el logo ---
+            ctx.fillStyle = '#2A2A2A';
+            ctx.fillRect(110, 280, 500, 1);
+
+            // --- TAGLINE ---
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = '400 32px "Segoe UI", Arial, sans-serif';
+            ctx.letterSpacing = '0px';
+            ctx.fillText('Automatización con IA para PYMEs', 110, 340);
+
+            // --- DESCRIPCIÓN ---
+            ctx.fillStyle = '#A8A8A8';
+            ctx.font = '400 22px "Segoe UI", Arial, sans-serif';
+            ctx.fillText('Escala tu negocio sin aumentar tu equipo.', 110, 390);
+
+            // --- URL ---
+            ctx.fillStyle = '#404040';
+            ctx.font = '400 20px "Segoe UI", Arial, sans-serif';
+            ctx.fillText('kintoai.com', 110, 500);
+
+            // --- ACENTO DORADO INFERIOR ---
+            ctx.fillStyle = '#FFB800';
+            ctx.fillRect(0, H - 4, W, 4);
+        }
+
+        dibujar();
+
+        function descargar() {
+            const link = document.createElement('a');
+            link.download = 'og-image.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
